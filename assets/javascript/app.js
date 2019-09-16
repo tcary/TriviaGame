@@ -21,61 +21,61 @@ var questions = [
         question: "What is the capital of Ukraine?",
         answers: ["Lviv", "Odessa", "Kiev", "Dnipro"],
         correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        image: "assets/images/ukr.webp"
     },
     {
         question: "What is the capital of Uganda?",
         answers: ["Jinja", "Entebbe", "Kampala", "Mbarara"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Kampala",
+        image: "assets/images/uganda1.webp"
     },
     {
         question: "What is the capital of France?",
         answers: ["Paris", "Marseille", "Lyon", "Strasbourg"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Paris",
+        image: "assets/images/paris1.webp"
     },
     {
         question: "What is the capital of USA?",
         answers: ["Denver", "New York", "Chicago", "Washington, D.C."],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Washington, D.C.",
+        image: "assets/images/wash1.webp"
     },
     {
         question: "What is the capital of Mexico?",
         answers: ["Guadalajara", "Puebla", "Cancun", "Mexico City"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Mexico City",
+        image: "assets/images/mex1.webp"
     },
     {
         question: "What is the capital of Georgia?",
         answers: ["Tbilisi", "Batumi", "Poti", "Kutaisi"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Tbilisi",
+        image: "assets/images/tbilisi.webp"
     },
     {
         question: "What is the capital of China?",
         answers: ["Shanghai", "Beijing", "Tianjin", "Wuhan"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Beijing",
+        image: "assets/images/china.webp"
     },
     {
         question: "What is the capital of India?",
         answers: ["Mumbai", "New Delhi", "Jaipur", "Lucknow"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "New Delhi",
+        image: "assets/images/new-delhi.webp"
     },
     {
         question: "What is the capital of Australia?",
         answers: ["Brisbane", "Sydney", "Canberra", "Darwin"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Canberra",
+        image: "assets/images/canberra.webp"
     },
     {
         question: "What is the capital of Kazakhstan?",
         answers: ["Taraz", "Almaty", "Nur-Sultan", "Shymkent"],
-        correctAnswer: "Kiev",
-        image: "assets/images/toystory.gif"
+        correctAnswer: "Nur-Sultan",
+        image: "assets/images/kazakh.webp"
     },
 ]
 window.onload = function () {
@@ -149,10 +149,10 @@ window.onload = function () {
         clearInterval(intervalId);
         incorrect++;
         displayCorrectAnswer();
+        $("#picDiv").append("<h3 id='userWrong'> You are wrong! </h3>");
         $("#question").empty();
         $(".buttonsDiv").empty();
-        $("#picDiv").append("<h3 id='userWrong'> You are wrong! </h3>");
-        setTimeout(nextQ, 1000 * 2);
+        setTimeout(nextQ, 1000 * 3);
     }
     function displayCorrectAnswer() {
         $("#correctAnswer").empty();
@@ -240,7 +240,7 @@ window.onload = function () {
             $("#picDiv").append("<h3 id='userCorrect'> You are correct! </h3>");
             correct++;
             displayCorrectAnswer();
-            setTimeout(nextQ, 1000 * 5);
+            setTimeout(nextQ, 1000 * 3);
 
         } else if (answer !== questions[questionNum].correctAnswer) {
             console.log("wrong");
@@ -259,13 +259,6 @@ window.onload = function () {
         $("#incorrect").text(incorrect);
     }
 
-    function reset() {
-
-        time = 15;
-        correct = 0;
-        incorrect = 0;
-
-    }
 
 
 }
