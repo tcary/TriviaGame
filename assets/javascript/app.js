@@ -9,7 +9,7 @@
 // Create an object for each question and answer
 // Put these objects in an array
 // Create a timer 
-var clockRunning = true;
+
 var time = 15;
 var correct = 0;
 var incorrect = 0;
@@ -79,20 +79,28 @@ var questions = [
     },
 ]
 window.onload = function () {
-    $("#start").on("click", function () {
-        startTimer()
-        $(this).hide()
-        nextQ();
-    })
+    function gameStart() {
+        var resetButton = $("<button>Start Game</button>").attr("id", "Reset");
+        questionNum = 0;
+        $("#startRow").append(resetButton);
+        $("#question").empty();
+        $(".scoreBox").empty();
+    }
+    gameStart();
+
+    $("#startRow").on("click", nextQ);
+
     function startTimer() {
         clearInterval(intervalId)
         console.log("started timer")
         $("#timer").text(time);
         // if (!clockRunning) {
         intervalId = setInterval(countTime, 1000);
-        clockRunning = false;
         // }
-
+        $("#startRow").empty();
+        $("#picDiv").empty();
+        //displays new buttons for next question
+        renderButtons();
     }
     function countTime() {
         time--;
@@ -107,9 +115,23 @@ window.onload = function () {
         time = 15;
     }
     function nextQ() {
-        questionNum++;
-        $("#questions").text(questions[questionNum].question)
-        // add the questions & the answers in the for loop
+        $("#timer").html("<h4><span id='timer'> 15</span></h4>");
+        $("#outOfTime").empty();
+        $("#correctAnswer").empty();
+        $("#picDiv").empty()
+        $(".scoreBox").empty();
+        //if its the last question or not
+        if (questionNum === questions.length) {
+            //if its the last question, the end function is called
+            theEnd();
+        } else if (questionNum < questions.length) {
+            //if there are more questions, calls the function displays new question
+            start();
+            $("#question").text(questions[questionNum].question);
+        } else {
+            //out of questions, game over
+            theEnd();
+        }
     }
     function ifCorrect() {
     }
@@ -126,16 +148,66 @@ window.onload = function () {
         $("#correctAnswer").empty();
         $(".timer").empty();
         $(".buttonsDiv").empty();
-        $("#correctAnswer").text("The answer is: " + trivia[questionNumber].correct + "!");
-        $("#picDiv").append("<img src='" + trivia[questionNumber].image + "' />");
+        $("#correctAnswer").text("The answer is: " + trivia[questionNum].correct + "!");
+        $("#picDiv").append("<img src='" + trivia[questionNum].image + "' />");
         questionNum++;
     }
-    function theEnd() {
-        $("#start").show()
-    }
-    function gameStart() {
-        var resetButton = $("<button>").attr("id", "Reset");
+    //renders answer buttons
+    function renderButtons() {
+        // Deletes the buttons prior to adding new answers
+        $(".buttonsDiv").empty();
 
+        if (questionNum < questions.length) {
+            //shuffles the array of answers
+            shuffle(questions[questionNum].answers);
+            console.log(questions[questionNum].answers)
+
+            // creates new buttons, with choices randomized
+            for (var i = 0; i < questions[questionNum].answers.length; i++) {
+
+                var a = $("<button class='btn'>");
+
+                a.addClass("choice");
+                // Added a data-attribute to identify answer
+                a.attr("data-name", questions[questionNum].answers[i]);
+                // Provided the initial button text
+                a.text(questions[questionNum].answers[i]);
+                // Added the button to the answers div
+                $(".buttonsDiv").append(a);
+
+
+            }
+
+
+
+        } else {
+            //if no more questions, end the game
+            theEnd();
+        }
+    }
+    function theEnd() {
+        $("#start").show();
+        clearInterval(intervalId);
+        $("#timer").empty();
+        //display wrong answers
+        $("#picDiv", ".buttons", "#question").empty();
+        score();
+        $("#timer").empty();
+        correct = 0;
+        incorrect = 0;
+        gameStart();
+
+    }
+    //WATCHES for a click in the answer div, calls back checkAnswer
+    $(".buttonsDiv").on("click", ".choice", checkAnswer);
+
+    //writes score to the box
+    function score() {
+        $(".scoreBox").append("<h3>Correct Answers: <span id='correct'></span></h3>")
+        $(".scoreBox").append("<h3>Incorrect Answers: <span id='incorrect'></span></h3>")
+
+        $("#correct").text(correct);
+        $("#incorrect").text(incorrect);
     }
 
     function reset() {
