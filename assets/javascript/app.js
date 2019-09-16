@@ -148,10 +148,10 @@ window.onload = function () {
     function ifWrong() {
         clearInterval(intervalId);
         incorrect++;
-        displayCorrectAnswer();
         $("#picDiv").append("<h3 id='userWrong'> You are wrong! </h3>");
         $("#question").empty();
         $(".buttonsDiv").empty();
+        displayCorrectAnswer();
         setTimeout(nextQ, 1000 * 3);
     }
     function displayCorrectAnswer() {
