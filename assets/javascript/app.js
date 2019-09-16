@@ -84,35 +84,11 @@ window.onload = function () {
         questionNum = 0;
         $("#startRow").append(resetButton);
         $("#question").empty();
-        $(".scoreBox").empty();
     }
     gameStart();
 
     $("#startRow").on("click", nextQ);
 
-    function startTimer() {
-        clearInterval(intervalId)
-        // console.log("started timer")
-        // if (!clockRunning) {
-        intervalId = setInterval(countTime, 1000);
-        // }
-        $("#startRow").empty();
-        $("#picDiv").empty();
-        //displays new buttons for next question
-        renderButtons();
-    }
-    function countTime() {
-        time--;
-        $("#timer").text(time);
-        if (time === 0) {
-            ifWrong();
-            time = 15;
-        }
-    }
-    function stopTimer() {
-        clearInterval(countTime);
-        time = 15;
-    }
     function nextQ() {
         $("#timer").html("<h4><span id='timer'> 15</span></h4>");
         $("#outOfTime").empty();
@@ -132,25 +108,37 @@ window.onload = function () {
             theEnd();
         }
     }
-    function ifCorrect() {
-        //empty the div
-        $("#correctAnswer").empty();
-        //display correct answer
-        $("#timer").empty();
-        //delete the buttons
-        $(".buttonsDiv").empty();
-        //displays correct answer with image
-        $("#correctAnswer").text("The answer is: " + questions[questionNum].correctAnswer + "!");
-        $("#picDiv").append("<img src='" + questions[questionNum].image + "' />");
-        //increases questionNumber to move to next array
-        questionNum++;
+
+    function startTimer() {
+        clearInterval(intervalId)
+        // console.log("started timer")
+        // if (!clockRunning) {
+        intervalId = setInterval(countTime, 1000);
+        // }
+        $("#startRow").empty();
+        $("#picDiv").empty();
+        $(".scorebox").empty();
+        //displays new buttons for next question
+        renderButtons();
+    }
+    function countTime() {
+        time--;
+        $("#timer").text(time);
+        if (time === 0) {
+            ifWrong();
+            time = 15;
+        }
+    }
+    function stopTimer() {
+        clearInterval(countTime);
+        time = 15;
     }
     function ifWrong() {
         clearInterval(intervalId);
-        incorrect++;
         $("#picDiv").append("<h3 id='userWrong'> You are wrong! </h3>");
         $("#question").empty();
         $(".buttonsDiv").empty();
+        incorrect++;
         displayCorrectAnswer();
         setTimeout(nextQ, 1000 * 3);
     }
@@ -161,6 +149,21 @@ window.onload = function () {
         $("#correctAnswer").text("The answer is: " + questions[questionNum].correctAnswer + "!");
         $("#picDiv").append("<img src='" + questions[questionNum].image + "' />");
         questionNum++;
+    }
+
+    // Function Ends the game
+    function theEnd() {
+        clearInterval(intervalId);
+        $("#timer").empty();
+        //display wrong answers
+        $("#picDiv", ".buttons", "#question").empty();
+        score();
+
+        $("#timer").empty();
+        correct = 0;
+        incorrect = 0;
+        gameStart();
+
     }
     //renders answer buttons
     function renderButtons() {
@@ -184,30 +187,13 @@ window.onload = function () {
                 a.text(questions[questionNum].answers[i]);
                 // Added the button to the answers div
                 $(".buttonsDiv").append(a);
-
-
             }
-
-
-
         } else {
             //if no more questions, end the game
             theEnd();
         }
     }
-    // Function Ends the game
-    function theEnd() {
-        clearInterval(intervalId);
-        $("#timer").empty();
-        //display wrong answers
-        $("#picDiv", ".buttons", "#question").empty();
-        score();
-        $("#timer").empty();
-        correct = 0;
-        incorrect = 0;
-        gameStart();
 
-    }
     //Function to shuffle answer array so buttons display in different order
     function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -252,13 +238,7 @@ window.onload = function () {
 
     //writes score to the box
     function score() {
-        $(".scoreBox").append("<h3>Correct Answers: <span id='correct'></span></h3>")
-        $(".scoreBox").append("<h3>Incorrect Answers: <span id='incorrect'></span></h3>")
-
-        $("#correct").text(correct);
-        $("#incorrect").text(incorrect);
+        $("#correct").text("Correct Answer: " + correct);
+        $("#incorrect").text("Incorrect Answer: " + incorrect);
     }
-
-
-
 }

@@ -4,6 +4,11 @@ background: url(../images/question-background.png)
 .container {
     background-color: #618be665;
     margin: 50px 75px;
+    padding: 10%;
+}
+#gameWrapper {
+   
+    padding: 10%;
 }
 #heading {
     font-size: xx-large;
@@ -13,4 +18,18 @@ background: url(../images/question-background.png)
 #timer {
     font-size: x-large;
     text-align: center;
+    color: darkred;
+}
+.scorebox {
+    color: black;
+    font-size: large;
+    height: 80px;
+}
+#startRow {
+    text-align: center;
+}
+#correct img {
+    width: 200px;
+    height: 200px;
+    
 }
