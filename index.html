@@ -10,9 +10,27 @@
     </head>
 
     <body>
-        <h1 id="timer">Timer:</h1>
-        <button id="start">Start:</button>
-        <div id="questions">Questions</div>
+        <div class="container">
+            <div id="heading">
+                <h1>Country Capital Trivia</h1>
+                <h5>You have 15 seconds to answer each question, unanswered questions will be counted as wrong!</h5>
+            </div>
+
+            <div id="startRow"></div>
+
+            <div class="timer"></div>
+            <div class="scorebox"></div>
+
+            <div id="gameWrapper" class="container">
+
+                <div class="row">
+                    <h4 id="question"></h4>
+                    <h2 id="correctAnswer"></h2>
+                </div>
+                <div class="buttonsDiv"></div>
+                <div id="picDiv"></div>
+            </div>
+        </div>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="assets/javascript/app.js"></script>
     </body>

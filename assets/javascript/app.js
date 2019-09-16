@@ -10,23 +10,73 @@
 // Put these objects in an array
 // Create a timer 
 var clockRunning = true;
-var time = 30;
+var time = 15;
 var correct = 0;
 var incorrect = 0;
 var intervalId;
 var questionNum = 0;
 
-var questions = [{
-    question: "What was the first full length CGI movie?",
-    answers: ["A Bug's Life", "Monsters Inc.", "Toy Story", "The Lion King"],
-    correctAnswer: "Toy Story",
-    image: "assets/images/toystory.gif"
-    // }, {
-    //     questions:
-    //     answers:
-    //     correctAnswer:
-    //     image:
-}
+var questions = [
+    {
+        question: "What is the capital of Ukraine?",
+        answers: ["Lviv", "Odessa", "Kiev", "Dnipro"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of Uganda?",
+        answers: ["Jinja", "Entebbe", "Kampala", "Mbarara"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of France?",
+        answers: ["Paris", "Marseille", "Lyon", "Strasbourg"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of USA?",
+        answers: ["Denver", "New York", "Chicago", "Washington, D.C."],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of Mexico?",
+        answers: ["Guadalajara", "Puebla", "Cancun", "Mexico City"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of Georgia?",
+        answers: ["Tbilisi", "Batumi", "Poti", "Kutaisi"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of China?",
+        answers: ["Shanghai", "Beijing", "Tianjin", "Wuhan"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of India?",
+        answers: ["Mumbai", "New Delhi", "Jaipur", "Lucknow"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of Australia?",
+        answers: ["Brisbane", "Sydney", "Canberra", "Darwin"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
+    {
+        question: "What is the capital of Kazakhstan?",
+        answers: ["Taraz", "Almaty", "Nur-Sultan", "Shymkent"],
+        correctAnswer: "Kiev",
+        image: "assets/images/toystory.gif"
+    },
 ]
 window.onload = function () {
     $("#start").on("click", function () {
@@ -49,12 +99,12 @@ window.onload = function () {
         $("#timer").text(time);
         if (time === 0) {
             ifWrong();
-            time = 30;
+            time = 15;
         }
     }
     function stopTimer() {
-        clearInterval(intervalId);
-        clockRunning = false;
+        clearInterval(decrement);
+        time = 15;
     }
     function nextQ() {
         questionNum++;
@@ -64,7 +114,21 @@ window.onload = function () {
     function ifCorrect() {
     }
     function ifWrong() {
-
+        clearInterval(intervalId);
+        incorrect++;
+        displayCorrectAnswer();
+        $("#question").empty();
+        $(".buttonsDiv").empty();
+        $("#picDiv").append("<h3 id='userWrong'> You are wrong! </h3>");
+        setTimeout(nextQuestion, 1000 * 2);
+    }
+    function displayCorrectAnswer() {
+        $("#correctAnswer").empty();
+        $(".timer").empty();
+        $(".buttonsDiv").empty();
+        $("#correctAnswer").text("The answer is: " + trivia[questionNumber].correct + "!");
+        $("#picDiv").append("<img src='" + trivia[questionNumber].image + "' />");
+        questionNum++;
     }
     function theEnd() {
         $("#start").show()
@@ -76,7 +140,7 @@ window.onload = function () {
 
     function reset() {
 
-        time = 30;
+        time = 15;
         correct = 0;
         incorrect = 0;
 
