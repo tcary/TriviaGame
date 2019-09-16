@@ -92,8 +92,7 @@ window.onload = function () {
 
     function startTimer() {
         clearInterval(intervalId)
-        console.log("started timer")
-        $("#timer").text(time);
+        // console.log("started timer")
         // if (!clockRunning) {
         intervalId = setInterval(countTime, 1000);
         // }
@@ -111,7 +110,7 @@ window.onload = function () {
         }
     }
     function stopTimer() {
-        clearInterval(decrement);
+        clearInterval(countTime);
         time = 15;
     }
     function nextQ() {
@@ -126,7 +125,7 @@ window.onload = function () {
             theEnd();
         } else if (questionNum < questions.length) {
             //if there are more questions, calls the function displays new question
-            start();
+            startTimer();
             $("#question").text(questions[questionNum].question);
         } else {
             //out of questions, game over
@@ -134,6 +133,17 @@ window.onload = function () {
         }
     }
     function ifCorrect() {
+        //empty the div
+        $("#correctAnswer").empty();
+        //display correct answer
+        $("#timer").empty();
+        //delete the buttons
+        $(".buttonsDiv").empty();
+        //displays correct answer with image
+        $("#correctAnswer").text("The answer is: " + questions[questionNum].correctAnswer + "!");
+        $("#picDiv").append("<img src='" + questions[questionNum].image + "' />");
+        //increases questionNumber to move to next array
+        questionNum++;
     }
     function ifWrong() {
         clearInterval(intervalId);
@@ -142,14 +152,14 @@ window.onload = function () {
         $("#question").empty();
         $(".buttonsDiv").empty();
         $("#picDiv").append("<h3 id='userWrong'> You are wrong! </h3>");
-        setTimeout(nextQuestion, 1000 * 2);
+        setTimeout(nextQ, 1000 * 2);
     }
     function displayCorrectAnswer() {
         $("#correctAnswer").empty();
         $(".timer").empty();
         $(".buttonsDiv").empty();
-        $("#correctAnswer").text("The answer is: " + trivia[questionNum].correct + "!");
-        $("#picDiv").append("<img src='" + trivia[questionNum].image + "' />");
+        $("#correctAnswer").text("The answer is: " + questions[questionNum].correctAnswer + "!");
+        $("#picDiv").append("<img src='" + questions[questionNum].image + "' />");
         questionNum++;
     }
     //renders answer buttons
@@ -185,8 +195,8 @@ window.onload = function () {
             theEnd();
         }
     }
+    // Function Ends the game
     function theEnd() {
-        $("#start").show();
         clearInterval(intervalId);
         $("#timer").empty();
         //display wrong answers
@@ -197,6 +207,45 @@ window.onload = function () {
         incorrect = 0;
         gameStart();
 
+    }
+    //Function to shuffle answer array so buttons display in different order
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+        return array;
+    }
+
+    function checkAnswer() {
+        event.preventDefault();
+        clearInterval(intervalId);
+        stopTimer();
+
+        var answer = $(this).attr("data-name");
+        console.log("answer: " + answer);
+
+        if ((answer === questions[questionNum].correctAnswer) && (questionNum <= questions.length)) {
+            console.log("correct");
+            $("#picDiv").append("<h3 id='userCorrect'> You are correct! </h3>");
+            correct++;
+            displayCorrectAnswer();
+            setTimeout(nextQ, 1000 * 5);
+
+        } else if (answer !== questions[questionNum].correctAnswer) {
+            console.log("wrong");
+            ifWrong();
+        }
     }
     //WATCHES for a click in the answer div, calls back checkAnswer
     $(".buttonsDiv").on("click", ".choice", checkAnswer);
