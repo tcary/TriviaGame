@@ -142,7 +142,7 @@ window.onload = function () {
         $(".buttonsDiv").empty();
         incorrect++;
         displayCorrectAnswer();
-        setTimeout(nextQ, 1000 * 1);
+        setTimeout(nextQ, 1000 * 3);
     }
     function displayCorrectAnswer() {
         $("#correctAnswer").empty();
@@ -216,7 +216,7 @@ window.onload = function () {
             $("#picDiv").append("<h3 id='userCorrect'> You are correct! </h3>");
             correct++;
             displayCorrectAnswer();
-            setTimeout(nextQ, 1000 * 1);
+            setTimeout(nextQ, 1000 * 3);
 
         } else if (answer !== questions[questionNum].correctAnswer) {
             console.log("wrong");
