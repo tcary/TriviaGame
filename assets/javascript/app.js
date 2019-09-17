@@ -80,10 +80,12 @@ var questions = [
 ]
 window.onload = function () {
     function gameStart() {
-        var resetButton = $("<button>Start Game</button>").attr("id", "Reset");
-        questionNum = 0;
-        $("#startRow").append(resetButton);
-        $("#question").empty();
+        $("#startRow").empty();
+        var startButton = $("<button>");
+        startButton.text("Start game");
+        startButton.addClass("start answerBtn");
+        // questionNum = 0;
+        $("#startRow").append(startButton);
     }
     gameStart();
 
@@ -94,7 +96,7 @@ window.onload = function () {
         $("#outOfTime").empty();
         $("#correctAnswer").empty();
         $("#picDiv").empty()
-        $(".scoreBox").empty();
+        // $(".scoreBox").empty();
         //if its the last question or not
         if (questionNum === questions.length) {
             //if its the last question, the end function is called
@@ -117,7 +119,7 @@ window.onload = function () {
         // }
         $("#startRow").empty();
         $("#picDiv").empty();
-        $(".scorebox").empty();
+        $(".scorebox").hide();
         //displays new buttons for next question
         renderButtons();
     }
@@ -140,7 +142,7 @@ window.onload = function () {
         $(".buttonsDiv").empty();
         incorrect++;
         displayCorrectAnswer();
-        setTimeout(nextQ, 1000 * 3);
+        setTimeout(nextQ, 1000 * 1);
     }
     function displayCorrectAnswer() {
         $("#correctAnswer").empty();
@@ -151,20 +153,7 @@ window.onload = function () {
         questionNum++;
     }
 
-    // Function Ends the game
-    function theEnd() {
-        clearInterval(intervalId);
-        $("#timer").empty();
-        //display wrong answers
-        $("#picDiv", ".buttons", "#question").empty();
-        score();
 
-        $("#timer").empty();
-        correct = 0;
-        incorrect = 0;
-        gameStart();
-
-    }
     //renders answer buttons
     function renderButtons() {
         // Deletes the buttons prior to adding new answers
@@ -188,12 +177,13 @@ window.onload = function () {
                 // Added the button to the answers div
                 $(".buttonsDiv").append(a);
             }
-        } else {
-            //if no more questions, end the game
-            theEnd();
+            // } else if () {
+            //     console.log("game end")
+            //     //if no more questions, end the game
+            //     theEnd();
+            // }
         }
     }
-
     //Function to shuffle answer array so buttons display in different order
     function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -226,19 +216,46 @@ window.onload = function () {
             $("#picDiv").append("<h3 id='userCorrect'> You are correct! </h3>");
             correct++;
             displayCorrectAnswer();
-            setTimeout(nextQ, 1000 * 3);
+            setTimeout(nextQ, 1000 * 1);
 
         } else if (answer !== questions[questionNum].correctAnswer) {
             console.log("wrong");
             ifWrong();
+        } else if (questionNum > questions.length) {
+            theEnd();
         }
     }
     //WATCHES for a click in the answer div, calls back checkAnswer
     $(".buttonsDiv").on("click", ".choice", checkAnswer);
 
-    //writes score to the box
-    function score() {
+
+
+    // Function Ends the game
+    function theEnd() {
+        console.log("the end")
+        // clearInterval(intervalId);
+        // $(".row").empty();
+        // $("#timer").empty();
+        $("#picDiv", ".row", "#timer", ".buttons", "#question").empty();
+        $("#question").text("Here's the score!");
+        $(".scorebox").show();
         $("#correct").text("Correct Answer: " + correct);
         $("#incorrect").text("Incorrect Answer: " + incorrect);
+
+
+        var resetButton = $("<button>");
+        resetButton.addClass("reset answerBtn");
+        resetButton.text("Start Over?");
+        $(".row").append(resetButton);
+
     }
+    $(".row").on("click", ".answerBtn", function () {
+        correct = 0;
+        incorrect = 0;
+        questionNum = 0;
+        $(".answerBtn").remove();
+        $(".scorebox").hide();
+        $("#question").empty();
+        gameStart()
+    });
 }
